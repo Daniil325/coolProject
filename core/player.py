@@ -1,4 +1,3 @@
-import random
 from typing import List
 
 from core.card import Card
@@ -30,8 +29,3 @@ class Player:
         for card in self.cards:
             values_sum += card.rank
         return values_sum
-
-
-a = [1, 2, 3, 4, 5]
-random.shuffle(a)
-print(a)
