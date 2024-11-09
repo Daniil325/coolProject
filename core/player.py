@@ -4,9 +4,25 @@ from core.card import Card
 from core.exceptions import DomainError
 
 
-class Player:
+class BasePlayer:
 
-    def __init__(self, cards: List[Card] | None = None):
+    def __init__(self, cards: List[Card]):
+        self.cards = [] if cards is None else cards
+
+    def count_score(self):
+        values_sum = 0
+        for card in self.cards:
+            values_sum += card.rank
+        return values_sum
+
+    def take_card(self, card: Card):
+        self.cards.append(card)
+
+
+class Player(BasePlayer):
+
+    def __init__(self, cards: List[Card]):
+        super().__init__(cards)
         self._money = 1000
         self.cards = cards
 
@@ -24,8 +40,12 @@ class Player:
         self.money -= bet_amount
         return self.money
 
-    def count_card_values(self):
-        values_sum = 0
-        for card in self.cards:
-            values_sum += card.rank
-        return values_sum
+
+class Dealer(BasePlayer):
+
+    def __init__(self, cards: List[Card] | None = None):
+        super().__init__(cards)
+
+    def take_cards(self, player_score: int, card: Card):
+        while self.count_score() < player_score:
+            self.take_card(card)
