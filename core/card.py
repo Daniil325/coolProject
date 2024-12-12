@@ -2,7 +2,7 @@ class Card:
 
     def __init__(self, rank: int, suit: str):
         self._rank = rank
-        self._suit = suit
+        self.suit = suit
 
     @property
     def rank(self):

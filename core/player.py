@@ -13,6 +13,8 @@ class BasePlayer:
         values_sum = 0
         for card in self.cards:
             values_sum += card.rank
+        if values_sum > 21:
+            return -1
         return values_sum
 
     def take_card(self, card: Card):
@@ -21,9 +23,9 @@ class BasePlayer:
 
 class Player(BasePlayer):
 
-    def __init__(self, cards: List[Card]):
+    def __init__(self, cards: List[Card], money=1000):
         super().__init__(cards)
-        self._money = 1000
+        self._money = money
         self.cards = cards
 
     @property
@@ -45,7 +47,3 @@ class Dealer(BasePlayer):
 
     def __init__(self, cards: List[Card] | None = None):
         super().__init__(cards)
-
-    def take_cards(self, player_score: int, card: Card):
-        while self.count_score() < player_score:
-            self.take_card(card)
